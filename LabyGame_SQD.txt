@@ -1,0 +1,16 @@
+title LabyGame
+actor Client
+Client->Server:POST: Neues Spiel erstellen
+Client<--Server:RESPONSE: GameID
+loop bis beendet
+Client->Server:PUT: (SessionID,Richtung)
+alt Feld verlassen
+Client<--Server: Game Over ("failed")
+else Spiel beendet
+Client<--Server:Gewonnen ("success")
+else Weg blockiert
+Client<--Server:Schritt blockiert ("wall")
+else Weg frei
+Client<--Server:Schritt erfolgreich ("free")
+end
+end
