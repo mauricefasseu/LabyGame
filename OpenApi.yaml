@@ -1,0 +1,169 @@
+openapi: 3.0.0
+info:
+  title: LabyGame API
+  version: 1.0.0
+  description: API für LabyGame
+
+paths:
+  /games:
+    post:
+      summary: Ein neues Spiel starten
+      operationId: startGame
+      responses:
+        '201':
+          description: Spiel gestartet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+
+  /games/{gameId}:
+    get:
+      summary: Ein Spiel abrufen
+      operationId: getGame
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Spiel gefunden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        '404':
+          description: Spiel nicht gefunden
+
+    delete:
+      summary: Ein Spiel löschen
+      operationId: deleteGame
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Spiel gelöscht
+        '404':
+          description: Spiel nicht gefunden
+
+  /games/{gameId}/move:
+    post:
+      summary: Spieler bewegen (neue Bewegung ausführen)
+      operationId: createMove
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveRequest'
+      responses:
+        '201':
+          description: Bewegung ausgeführt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoveResponse'
+        '400':
+          description: Ungültige Bewegung
+
+    put:
+      summary: Spieler bewegen (bestehende Bewegung aktualisieren)
+      operationId: updateMove
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveRequest'
+      responses:
+        '200':
+          description: Bewegung aktualisiert
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoveResponse'
+        '400':
+          description: Ungültige Bewegung
+
+components:
+  schemas:
+    Game:
+      type: object
+      properties:
+        id:
+          type: string
+        position:
+          $ref: '#/components/schemas/Position'
+        spielfeld:
+          type: string
+          example: "5x5"
+
+    MoveRequest:
+      type: object
+      properties:
+        richtung:
+          type: string
+          enum:
+            - links
+            - rechts
+            - hoch
+            - runter
+
+    MoveResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - blocked  # Wenn eine Wand im Weg ist
+            - success  # Wenn das Feld frei ist und der Spieler angekommen ist
+            - invalid  # Wenn der Spieler aus dem Feld geht
+        neuePosition:
+          $ref: '#/components/schemas/Position'
+
+    Position:
+      type: string
+      enum:
+        - A1
+        - A2
+        - A3
+        - A4
+        - A5
+        - B1
+        - B2
+        - B3
+        - B4
+        - B5
+        - C1
+        - C2
+        - C3
+        - C4
+        - C5
+        - D1
+        - D2
+        - D3
+        - D4
+        - D5
+        - E1
+        - E2
+        - E3
+        - E4
+        - E5
