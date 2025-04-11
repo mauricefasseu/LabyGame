@@ -20,5 +20,8 @@ jobs:
         java-version: '24'
         distribution: 'temurin'
 
+    - name: Set working directory
+      run: cd LabyGame_V2/springweb
+
     - name: Build with Maven
       run: mvn clean install
