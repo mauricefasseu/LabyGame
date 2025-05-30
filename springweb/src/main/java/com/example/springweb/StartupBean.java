@@ -24,8 +24,8 @@ public class StartupBean {
 
         GameDto game = defaultApi.gamePost(gameInput);
         System.out.println("======================================");
-        System.out.println("🎮 Spiel gestartet für Gruppe: " + game.getGroupName());
-        System.out.println("📍 Startposition: " + posToString(game.getPosition()));
+        System.out.println("Spiel gestartet für Gruppe: " + game.getGroupName());
+        System.out.println("Startposition: " + posToString(game.getPosition()));
         System.out.println("======================================");
 
         List<String> visited = new ArrayList<>();
@@ -65,7 +65,7 @@ public class StartupBean {
 
                 try {
                     MoveDto move = defaultApi.gameGameIdMovePost(game.getGameId(), moveInput);
-                    System.out.println("➡️  Versuche Richtung: " + dir + " → Status: " + move.getMoveStatus());
+                    System.out.println("Versuche Richtung: " + dir + " → Status: " + move.getMoveStatus());
 
                     if (move.getMoveStatus() == MoveStatusDto.MOVED) {
                         game.setPosition(move.getPositionAfterMove());
@@ -73,29 +73,29 @@ public class StartupBean {
 
                         step++;
                         System.out.println("--------------------------------------");
-                        System.out.println("✅ Schritt: " + step);
-                        System.out.println("📍 Neue Position: " + posToString(game.getPosition()));
-                        System.out.println("📌 Spielstatus: " + game.getStatus());
+                        System.out.println("Schritt: " + step);
+                        System.out.println("Neue Position: " + posToString(game.getPosition()));
+                        System.out.println("Spielstatus: " + game.getStatus());
                         System.out.println("--------------------------------------");
 
                         moved = true;
                         break;
                     }
                 } catch (Exception e) {
-                    System.err.println("❌ Fehler bei Richtung " + dir + ": " + e.getMessage());
+                    System.err.println("Fehler bei Richtung " + dir + ": " + e.getMessage());
                 }
             }
 
             if (!moved) {
-                System.out.println("🚫 Keine gültige Bewegung mehr möglich. Spiel festgefahren.");
+                System.out.println("Keine gültige Bewegung mehr möglich. Spiel festgefahren.");
                 break;
             }
         }
 
         System.out.println("======================================");
-        System.out.println("🏁 Spiel beendet!");
-        System.out.println("📌 Endgültiger Spielstatus: " + game.getStatus());
-        System.out.println("📍 Endposition: " + posToString(game.getPosition()));
+        System.out.println("Spiel beendet!");
+        System.out.println("Endgültiger Spielstatus: " + game.getStatus());
+        System.out.println("Endposition: " + posToString(game.getPosition()));
         System.out.println("======================================");
     }
 
